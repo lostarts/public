@@ -1,4 +1,4 @@
-# Lost Arts Publix
+# Lost Arts Public
 
 A simple, modern one-page website showcasing traditional arts and crafts.
 
