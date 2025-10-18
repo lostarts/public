@@ -71,9 +71,18 @@
 body {
     font-family: 'Maison Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
-    color: #000;
-    background-color: #fff;
+    color: #fff; /* Start with white text */
+    background-color: #000; /* Start with black background */
     font-size: 22px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);}
+
+/* When inversion is triggered, flip to white background with black text */
+body.inverted {
+    background-color: #fff;
+    color: #000;
 }
 
 /* Lightweight Grid System */
@@ -109,10 +118,116 @@ body {
 
 /* Letter Layout */
 .letter {
-    max-width: 800px;
-    margin: 60px auto;
-    padding: 40px 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
+
+/* Black Viewport Section */
+.black-viewport {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    position: relative;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.title-section h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+.title-section .eye-logo {
+    width: 70%;
+    height: auto;
+    max-width: 280px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Opening Section - Centered */
+.opening-section {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+
+
+/* Scroll Reveal Section */
+.scroll-reveal {
+    position: relative;
+    padding-top: 60px;
+}
+
+/* Content Container for constrained width */
+.content-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+}
+
+
+/* Image Reveal */
+.reveal-image {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 60px auto;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal-image.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Text Fade In */
+.fade-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0s;
+}
+
+.fade-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation delays for text elements */
+.fade-text:nth-child(1) { transition-delay: 0.1s; }
+.fade-text:nth-child(2) { transition-delay: 0.2s; }
+.fade-text:nth-child(3) { transition-delay: 0.3s; }
+.fade-text:nth-child(4) { transition-delay: 0.4s; }
+.fade-text:nth-child(5) { transition-delay: 0.5s; }
+.fade-text:nth-child(6) { transition-delay: 0.6s; }
+.fade-text:nth-child(7) { transition-delay: 0.7s; }
+.fade-text:nth-child(8) { transition-delay: 0.8s; }
+.fade-text:nth-child(9) { transition-delay: 0.9s; }
+.fade-text:nth-child(10) { transition-delay: 1.0s; }
+.fade-text:nth-child(11) { transition-delay: 1.1s; }
 
 .letter-header {
     margin-bottom: 40px;
@@ -145,6 +260,14 @@ body {
 
 .letter-content p:last-child {
     margin-bottom: 0;
+}
+
+/* Headline Styles */
+.headline {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    font-weight: 400;
 }
 
 /* Typography Utilities */
@@ -206,6 +329,24 @@ body {
     }
 }
 
+@media (max-width: 1024px) {
+    .opening-section {
+        max-width: 500px;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title-section .eye-logo {
+        width: 80%;
+        max-width: 200px;
+    }
+    
+    .title-section {
+        margin-bottom: 80px;
+    }
+}
+
 @media (max-width: 480px) {
     .letter-header h1 {
         font-size: 2.2rem;
@@ -214,5 +355,19 @@ body {
     .letter-content {
         font-size: 1.1rem;
         line-height: 1.7;
+    }
+    
+    .opening-section {
+        max-width: 400px;
+        padding: 0 15px;
+    }
+    
+    .title-section .eye-logo {
+        width: 85%;
+        max-width: 160px;
+    }
+    
+    .title-section {
+        margin-bottom: 60px;
     }
 }
