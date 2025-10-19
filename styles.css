@@ -229,6 +229,92 @@ body.inverted {
 .fade-text:nth-child(10) { transition-delay: 1.0s; }
 .fade-text:nth-child(11) { transition-delay: 1.1s; }
 
+/* Interactive Text Styles - Subtle Brand Approach */
+.interactive-text {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(120deg, transparent 0%, rgba(233, 233, 233, 0.1) 50%, transparent 100%);
+    background-size: 200% 100%;
+    background-position: 200% 0;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid rgba(242, 201, 76, 0.8);
+    font-weight: 450;
+}
+
+.interactive-text:hover {
+    background-position: 0% 0%;
+    background: rgba(233, 233, 233, 0.15);
+    border: 1px solid rgba(233, 233, 233, 0.3);
+    border-bottom: 2px solid rgba(242, 201, 76, 1);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.interactive-text:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Eye emoji on hover */
+.interactive-text::before {
+    content: '';
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.interactive-text:hover::before {
+    content: '👁';
+    opacity: 0.7;
+}
+
+/* Interactive text styling for inverted (white) background */
+body.inverted .interactive-text {
+    background: linear-gradient(120deg, transparent 0%, rgba(36, 36, 36, 0.05) 50%, transparent 100%);
+}
+
+body.inverted .interactive-text:hover {
+    background: rgba(36, 36, 36, 0.08);
+    border: 1px solid rgba(36, 36, 36, 0.15);
+    border-bottom: 2px solid rgba(242, 201, 76, 1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+/* Image Overlay */
+.image-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    max-width: 80vw;
+    max-height: 80vh;
+}
+
+.image-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
 .letter-header {
     margin-bottom: 40px;
     text-align: center;
