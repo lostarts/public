@@ -61,6 +61,60 @@ document.addEventListener('DOMContentLoaded', function() {
     imageOverlay.innerHTML = '<img class="overlay-image" src="" alt="">';
     document.body.appendChild(imageOverlay);
     
+    // Function to position image overlay optimally relative to triggering text
+    function positionImageOverlay(triggerElement, overlay) {
+        const triggerRect = triggerElement.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Dynamic sizing based on screen size
+        const isMobile = viewportWidth <= 480;
+        const overlayWidth = isMobile ? 300 : 400;
+        const overlayHeight = isMobile ? 300 : 400;
+        const margin = isMobile ? 15 : 20; // smaller margin on mobile
+        
+        // Calculate available space in each direction
+        const spaceAbove = triggerRect.top;
+        const spaceBelow = viewportHeight - triggerRect.bottom;
+        const spaceLeft = triggerRect.left;
+        const spaceRight = viewportWidth - triggerRect.right;
+        
+        let top, left;
+        
+        // Determine vertical position - prefer above, fallback to below
+        if (spaceAbove >= overlayHeight + margin) {
+            // Position above the text
+            top = triggerRect.top - overlayHeight - margin;
+        } else if (spaceBelow >= overlayHeight + margin) {
+            // Position below the text
+            top = triggerRect.bottom + margin;
+        } else {
+            // Center vertically if neither above nor below has enough space
+            top = Math.max(margin, (viewportHeight - overlayHeight) / 2);
+        }
+        
+        // Determine horizontal position - prefer right, fallback to left
+        if (spaceRight >= overlayWidth + margin) {
+            // Position to the right of the text
+            left = triggerRect.right + margin;
+        } else if (spaceLeft >= overlayWidth + margin) {
+            // Position to the left of the text
+            left = triggerRect.left - overlayWidth - margin;
+        } else {
+            // Center horizontally if neither side has enough space
+            left = Math.max(margin, (viewportWidth - overlayWidth) / 2);
+        }
+        
+        // Ensure the overlay stays within viewport bounds
+        left = Math.max(margin, Math.min(left, viewportWidth - overlayWidth - margin));
+        top = Math.max(margin, Math.min(top, viewportHeight - overlayHeight - margin));
+        
+        // Apply the calculated position
+        overlay.style.top = `${top}px`;
+        overlay.style.left = `${left}px`;
+        overlay.style.transform = 'none'; // Remove any existing transform
+    }
+    
     // Image mapping - random assignments for now
     const imageMap = {
         'youtube-tutorials': 'assets/images/failed.jpg',
@@ -88,6 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const img = imageOverlay.querySelector('.overlay-image');
                 img.src = imageMap[imageId];
                 img.alt = `Image for ${this.textContent.trim()}`;
+                
+                // Calculate optimal position for the image
+                positionImageOverlay(this, imageOverlay);
                 imageOverlay.classList.add('visible');
             }
         });
