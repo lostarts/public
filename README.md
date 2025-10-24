@@ -58,6 +58,64 @@ The website uses a modern color palette:
 2. Add your image files
 3. Reference them in HTML: `<img src="images/your-image.jpg" alt="Description">`
 
+## Interactive Text-to-Image System
+
+The website features an interactive hover system where specific text elements display related images when hovered over. This system is designed to be easily customizable for content updates.
+
+### How It Works
+
+**1. HTML Structure**: Interactive text elements use a `data-image-id` attribute:
+```html
+<span class="interactive-text" data-image-id="tools">tools</span>
+```
+
+**2. JavaScript Mapping**: The `imageMap` object in `script.js` defines text-to-image relationships:
+```javascript
+const imageMap = {
+    'tools': 'assets/images/AoT.jpg',
+    'workspace': 'assets/images/Beth Corzo-Duchardt - Cube_07_31_15a.JPG',
+    'woodworking': 'assets/images/Center for the Lost Arts_85.jpg',
+    // Add more mappings as needed
+};
+```
+
+**3. Smart Positioning**: Images appear in optimal locations relative to the triggering text:
+- Prefers above/below the text, falls back to left/right
+- Automatically adjusts for mobile vs desktop screen sizes
+- Ensures images don't interfere with text positioning
+
+### Updating Content
+
+To add new interactive text elements:
+
+1. **Add HTML**: Wrap text with the interactive class and data attribute:
+   ```html
+   <span class="interactive-text" data-image-id="your-key">Your Text</span>
+   ```
+
+2. **Update imageMap**: Add the relationship in `script.js`:
+   ```javascript
+   const imageMap = {
+       // existing mappings...
+       'your-key': 'assets/images/your-image.jpg'
+   };
+   ```
+
+3. **Add Images**: Place your images in the `assets/images/` folder
+
+### Available Images
+Current images in `assets/images/`:
+- `AoT.jpg`
+- `Beth Corzo-Duchardt - Cube_07_31_15a.JPG`
+- `Center for the Lost Arts_85.jpg`
+- `changchair.jpg`
+- `craightonhead.jpg`
+- `failed.jpg`
+- `graciecoudla.jpg`
+- `img_9823.jpg`
+- `LostArts_Eye_White.png`
+- `LostArts_Stack_White.png`
+
 ## Browser Support
 
 - Chrome (recommended)

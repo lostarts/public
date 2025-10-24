@@ -2,8 +2,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Get elements
     const headline = document.querySelector('.headline');
+    const blackViewport = document.querySelector('.black-viewport');
+    const fadeTrigger = document.querySelector('.fade-trigger');
     const body = document.body;
-    const fadeTexts = document.querySelectorAll('.fade-text');
     
     // Page inversion observer - handles both directions
     const inversionOptions = {
@@ -15,42 +16,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const inversionObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Headline is back in viewport, remove inversion (back to black)
+                // Fade trigger is in viewport, remove inversion (back to black)
                 body.classList.remove('inverted');
             } else {
-                // Headline has left the viewport, trigger inversion (to white)
+                // Fade trigger has left the viewport, trigger inversion (to white)
                 body.classList.add('inverted');
             }
         });
     }, inversionOptions);
     
-    // Content reveal observer
-    const contentOptions = {
-        threshold: 0.15,
-        rootMargin: '-50px 0px -50px 0px'
-    };
-    
-    const contentObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            } else {
-                // Optional: hide content when scrolling back up
-                // entry.target.classList.remove('visible');
-            }
-        });
-    }, contentOptions);
-    
-    // Observe headline for bidirectional page inversion
-    if (headline) {
-        inversionObserver.observe(headline);
+    // Observe fade trigger for bidirectional page inversion
+    if (fadeTrigger) {
+        inversionObserver.observe(fadeTrigger);
     }
-    
-    
-    // Observe text for content reveal
-    fadeTexts.forEach(text => {
-        contentObserver.observe(text);
-    });
     
     // Interactive text functionality with image display
     const interactiveTexts = document.querySelectorAll('.interactive-text');
@@ -180,4 +158,5 @@ document.addEventListener('DOMContentLoaded', function() {
         text.setAttribute('role', 'button');
         text.setAttribute('aria-label', 'View additional content');
     });
+    
 });

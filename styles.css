@@ -77,7 +77,8 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);}
+    transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 /* When inversion is triggered, flip to white background with black text */
 body.inverted {
@@ -123,24 +124,49 @@ body.inverted {
     width: 100%;
 }
 
-/* Black Viewport Section */
+/* Black Viewport Section - Always stays black */
 .black-viewport {
     height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 40px 20px;
+    padding: 20px 20px 40px 20px;
     position: relative;
     margin: 0;
     box-sizing: border-box;
+    background-color: #000 !important;
+    color: #fff !important;
+    transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: visible;
+}
+
+/* Hero Video Background */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+/* When inverted, black viewport text fades to black */
+body.inverted .black-viewport {
+    color: #000 !important;
 }
 
 /* Title Section */
 .title-section {
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
+    padding-top: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 .title-section h1 {
@@ -151,19 +177,171 @@ body.inverted {
 }
 
 .title-section .eye-logo {
-    width: 70%;
+    width: 25%;
     height: auto;
-    max-width: 280px;
+    max-width: 100px;
     display: block;
     margin: 0 auto;
+    transition: filter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Opening Section - Centered */
+/* When inverted, logo fades to black */
+body.inverted .title-section .eye-logo {
+    filter: brightness(0);
+}
+
+/* Skylab-Style Typographic Section */
 .opening-section {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 0 20px;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.typography-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 40px;
+}
+
+.text-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    position: relative;
+}
+
+.text-line {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.text-line[data-line="1"] {
+    justify-content: flex-start;
+}
+
+.text-line[data-line="2"] {
+    justify-content: center;
+}
+
+.text-line[data-line="3"] {
+    justify-content: flex-end;
+}
+
+.text-line[data-line="4"] {
+    justify-content: flex-start;
+    margin-left: 10%;
+}
+
+.text-line[data-line="5"] {
+    justify-content: center;
+    margin-right: 15%;
+}
+
+.word {
+    font-size: 8rem;
+    font-weight: 200;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: #fff;
+    display: block;
+    transform: translateY(0);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    font-family: 'Maison Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body.inverted .word {
+    color: #000;
+}
+
+
+
+/* Hidden trigger element for fade timing */
+.fade-trigger {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: transparent;
+    pointer-events: none;
+}
+
+/* Animated Mouse Icon */
+.mouse-icon {
+    position: absolute;
+    bottom: 170px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(255, 0, 0, 0.3) !important; /* Debug: red background */
+    width: 50px !important; /* Debug: make it bigger */
+    height: 50px !important; /* Debug: make it bigger */
+}
+
+.mouse-body {
+    width: 24px;
+    height: 40px;
+    border: 2px solid #f2c94c;
+    border-radius: 12px;
+    position: relative;
+    animation: mouseFloat 2s ease-in-out infinite;
+    transition: border-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mouse-wheel {
+    width: 3px;
+    height: 6px;
+    background: #f2c94c;
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: mouseWheel 2s ease-in-out infinite;
+    transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* When inverted, mouse icon fades to black */
+body.inverted .mouse-body {
+    border-color: #000;
+}
+
+body.inverted .mouse-wheel {
+    background-color: #000;
+}
+
+@keyframes mouseFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes mouseWheel {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        opacity: 0.3;
+        transform: translateX(-50%) translateY(8px);
+    }
 }
 
 
@@ -171,14 +349,16 @@ body.inverted {
 /* Scroll Reveal Section */
 .scroll-reveal {
     position: relative;
-    padding-top: 60px;
+    padding-top: 240px;
+    color: #000 !important;
 }
 
 /* Content Container for constrained width */
 .content-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px 100px 20px;
+    color: #000 !important;
 }
 
 
@@ -203,54 +383,42 @@ body.inverted {
     display: block;
 }
 
-/* Text Fade In */
-.fade-text {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transition-delay: 0s;
-}
 
-.fade-text.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Staggered animation delays for text elements */
-.fade-text:nth-child(1) { transition-delay: 0.1s; }
-.fade-text:nth-child(2) { transition-delay: 0.2s; }
-.fade-text:nth-child(3) { transition-delay: 0.3s; }
-.fade-text:nth-child(4) { transition-delay: 0.4s; }
-.fade-text:nth-child(5) { transition-delay: 0.5s; }
-.fade-text:nth-child(6) { transition-delay: 0.6s; }
-.fade-text:nth-child(7) { transition-delay: 0.7s; }
-.fade-text:nth-child(8) { transition-delay: 0.8s; }
-.fade-text:nth-child(9) { transition-delay: 0.9s; }
-.fade-text:nth-child(10) { transition-delay: 1.0s; }
-.fade-text:nth-child(11) { transition-delay: 1.1s; }
-
-/* Interactive Text Styles - Subtle Brand Approach */
+/* Interactive Text Styles - Snøhetta-inspired approach */
 .interactive-text {
     position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background: linear-gradient(120deg, transparent 0%, rgba(233, 233, 233, 0.1) 50%, transparent 100%);
-    background-size: 200% 100%;
-    background-position: 200% 0;
-    padding: 2px 4px;
-    border-radius: 3px;
-    border: 1px solid transparent;
-    border-bottom: 1px solid rgba(242, 201, 76, 0.8);
-    font-weight: 450;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    background: transparent;
+    border: 2px solid transparent;
+    display: inline-block;
+}
+
+.interactive-text::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.1), rgba(242, 201, 76, 0.05));
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.interactive-text:hover::before {
+    opacity: 1;
 }
 
 .interactive-text:hover {
-    background-position: 0% 0%;
-    background: rgba(233, 233, 233, 0.15);
-    border: 1px solid rgba(233, 233, 233, 0.3);
-    border-bottom: 2px solid rgba(242, 201, 76, 1);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-color: rgba(242, 201, 76, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(242, 201, 76, 0.15);
 }
 
 .interactive-text:active {
@@ -335,24 +503,280 @@ body.inverted .interactive-text:hover {
 }
 
 .letter-content {
-    font-size: 1.3rem;
-    line-height: 1.8;
+    font-size: 2.4rem;
+    line-height: 1.7;
+    max-width: 900px;
+    margin: 0 auto;
+    color: #000 !important;
 }
 
 .letter-content p {
-    margin-bottom: 24px;
+    margin-bottom: 40px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
 }
 
 .letter-content p:last-child {
     margin-bottom: 0;
 }
 
+/* Poetic spacing for key paragraphs */
+.letter-content .poetic-break {
+    margin-bottom: 60px;
+}
+
+.letter-content .emphasis-text {
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.9;
+}
+
 /* Headline Styles */
 .headline {
-    font-size: 1.8rem;
-    line-height: 1.6;
-    margin-bottom: 32px;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 80px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Section Heading Styles */
+.section-heading {
+    font-family: 'Maison Neue Mono', 'Courier New', monospace;
+    font-size: 0.875rem;
     font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: #000;
+    text-align: left;
+    line-height: 1.4;
+}
+
+
+/* CTA Section - Call to Action */
+.cta-section {
+    margin: 120px 0 80px 0;
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.03) 0%, rgba(242, 201, 76, 0.08) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(242, 201, 76, 0.15);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.2), rgba(242, 201, 76, 0.05));
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cta-section:hover::before {
+    opacity: 1;
+}
+
+.cta-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 50px;
+    opacity: 0.9;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 45px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    background: #f2c94c;
+    color: #000;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(242, 201, 76, 0.3);
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cta-button:hover::before {
+    opacity: 1;
+}
+
+.cta-button:hover {
+    background: #f4d03f;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(242, 201, 76, 0.4);
+}
+
+.cta-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(242, 201, 76, 0.3);
+}
+
+/* CTA styling for inverted (white) background */
+body.inverted .cta-section {
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.05) 0%, rgba(242, 201, 76, 0.12) 100%);
+    border-color: rgba(242, 201, 76, 0.25);
+}
+
+body.inverted .cta-section::before {
+    background: linear-gradient(135deg, rgba(242, 201, 76, 0.15), rgba(242, 201, 76, 0.08));
+}
+
+body.inverted .cta-button {
+    background: #f2c94c;
+    color: #000;
+    box-shadow: 0 4px 20px rgba(242, 201, 76, 0.25);
+}
+
+body.inverted .cta-button:hover {
+    background: #f4d03f;
+    box-shadow: 0 8px 30px rgba(242, 201, 76, 0.35);
+}
+
+/* Responsive adjustments for headlines */
+@media (max-width: 768px) {
+    .mouse-icon {
+        bottom: auto !important;
+        top: calc(100vh - 100px) !important;
+    }
+    
+    .black-viewport {
+        padding-top: 10px;
+    }
+    
+    .title-section {
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .opening-section {
+        justify-content: flex-start;
+        padding-top: 60px;
+    }
+    
+    .headline {
+        font-size: 2.4rem;
+        line-height: 1.2;
+        margin-bottom: 60px;
+    }
+    
+    .letter-content {
+        font-size: 2rem;
+        line-height: 1.6;
+    }
+    
+    .letter-content p {
+        margin-bottom: 35px;
+    }
+    
+    .letter-content .poetic-break {
+        margin-bottom: 50px;
+    }
+    
+    .cta-section {
+        margin: 100px 0 60px 0;
+        padding: 60px 30px;
+    }
+    
+    .cta-text {
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+    }
+    
+    .cta-button {
+        padding: 18px 40px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mouse-icon {
+        bottom: auto !important;
+        top: calc(100vh - 80px) !important;
+    }
+    
+    .black-viewport {
+        padding-top: 5px;
+    }
+    
+    .title-section {
+        padding-top: 5px;
+        margin-bottom: 15px;
+    }
+    
+    .opening-section {
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
+    
+    .headline {
+        font-size: 1.9rem;
+        line-height: 1.2;
+        margin-bottom: 50px;
+    }
+    
+    .letter-content {
+        font-size: 1.8rem;
+        line-height: 1.6;
+    }
+    
+    .letter-content p {
+        margin-bottom: 30px;
+    }
+    
+    .letter-content .poetic-break {
+        margin-bottom: 45px;
+    }
+    
+    .cta-section {
+        margin: 80px 0 50px 0;
+        padding: 50px 20px;
+    }
+    
+    .cta-text {
+        font-size: 1rem;
+        margin-bottom: 35px;
+    }
+    
+    .cta-button {
+        padding: 16px 35px;
+        font-size: 0.9rem;
+    }
 }
 
 /* Typography Utilities */
@@ -393,7 +817,7 @@ body.inverted .interactive-text:hover {
     }
     
     .letter {
-        margin: 30px auto;
+        margin: 10px auto;
         padding: 20px 0;
     }
     
@@ -415,16 +839,36 @@ body.inverted .interactive-text:hover {
 }
 
 @media (max-width: 1024px) {
-    .opening-section {
-        max-width: 500px;
-        padding: 0 15px;
+    .word {
+        font-size: 6rem;
+    }
+    
+    .typography-container {
+        padding: 0 30px;
     }
 }
 
 @media (max-width: 768px) {
-    .title-section .eye-logo {
-        width: 80%;
-        max-width: 200px;
+    .word {
+        font-size: 5rem;
+    }
+    
+    .hero-video {
+        opacity: 0.6;
+    }
+    
+    .text-line[data-line="4"] {
+        justify-content: flex-start;
+        margin-left: 5%;
+    }
+    
+    .text-line[data-line="5"] {
+        justify-content: center;
+        margin-right: 8%;
+    }
+    
+    .typography-container {
+        padding: 0 20px;
     }
     
     .title-section {
@@ -442,14 +886,22 @@ body.inverted .interactive-text:hover {
         line-height: 1.7;
     }
     
+    .word {
+        font-size: 2.4rem;
+    }
+    
+    .typography-container {
+        padding: 0 15px;
+    }
+    
     .opening-section {
         max-width: 400px;
         padding: 0 15px;
     }
     
     .title-section .eye-logo {
-        width: 85%;
-        max-width: 160px;
+        width: 25%;
+        max-width: 60px;
     }
     
     .title-section {
