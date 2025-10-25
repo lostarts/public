@@ -68,6 +68,15 @@
     box-sizing: border-box;
 }
 
+html {
+    background-color: #000; /* Black background for pull-to-reload */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    /* Remove any default margins/padding that might cause gaps */
+    margin: 0;
+    padding: 0;
+}
+
 /* Debug Grid Overlay - Enhanced Vertical Focus - TEMPORARILY OFF */
 .debug-grid {
     position: fixed;
@@ -77,7 +86,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 50;
-    opacity: 0; /* TURNED OFF */
+    opacity: 0.3; /* TURNED ON */
     background-image: 
         linear-gradient(to right, rgba(255, 0, 0, 0.4) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 0, 0, 0.2) 1px, transparent 1px);
@@ -94,7 +103,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 49;
-    opacity: 0; /* TURNED OFF */
+    opacity: 0.3; /* TURNED ON */
     background-image: 
         linear-gradient(to right, rgba(0, 0, 255, 0.6) 1px, transparent 1px);
     background-size: 100px 100px; /* 12 columns of 100px each */
@@ -110,7 +119,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 51;
-    opacity: 0; /* TURNED OFF */
+    opacity: 0.3; /* TURNED ON */
     border-left: 2px solid rgba(255, 255, 0, 0.8);
     border-right: 2px solid rgba(255, 255, 0, 0.8);
     background: linear-gradient(to right, 
@@ -130,7 +139,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 52;
-    opacity: 0; /* TURNED OFF */
+    opacity: 0.3; /* TURNED ON */
     background-image: 
         linear-gradient(to right, 
             transparent 0px,
@@ -149,7 +158,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 48;
-    opacity: 0; /* TURNED OFF */
+    opacity: 0.3; /* TURNED ON */
     background-image: 
         linear-gradient(to right, rgba(0, 255, 0, 0.3) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(0, 255, 0, 0.3) 1px, transparent 1px);
@@ -160,19 +169,24 @@
 body {
     font-family: 'Maison Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
-    color: #fff; /* Start with white text */
-    background-color: #000; /* Start with black background */
+    color: #333333; /* Dark gray text */
+    background-color: #000; /* Start with black background to match video section */
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-attachment: fixed; /* Prevents background from moving during pull-to-reload */
     font-size: 22px;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    min-height: 100vh; /* Ensures body covers full viewport */
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
 }
 
 /* When inversion is triggered, flip to white background with black text */
 body.inverted {
-    background-color: #fff;
-    color: #000;
+    background-color: #f8f5e9; /* Light beige background */
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
 }
 
 /* Lightweight Grid System */
@@ -216,6 +230,7 @@ body.inverted {
 /* Black Viewport Section - Always stays black */
 .black-viewport {
     height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -226,9 +241,13 @@ body.inverted {
     margin: 0;
     box-sizing: border-box;
     background-color: #000 !important;
+    background-image: none !important; /* Remove any inherited background patterns */
     color: #fff !important;
     transition: color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow: visible;
+    /* Extend beyond viewport to prevent pull-to-reload bleed */
+    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 /* Hero Video Background */
@@ -341,7 +360,7 @@ body.inverted .title-section .eye-logo {
 
 .word {
     font-size: 8rem;
-    font-weight: 200;
+    font-weight: 400;
     line-height: 0.9;
     letter-spacing: -0.05em;
     color: #fff;
@@ -372,7 +391,7 @@ body.inverted .word {
 /* Animated Mouse Icon */
 .mouse-icon {
     position: absolute;
-    bottom: 170px;
+    bottom: 40px; /* Moved from 170px to 40px from bottom */
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -436,7 +455,7 @@ body.inverted .mouse-wheel {
 .scroll-reveal {
     position: relative;
     padding-top: 240px;
-    color: #000 !important;
+    color: #333333 !important; /* Dark gray */
 }
 
 /* Content Container for constrained width */
@@ -444,7 +463,7 @@ body.inverted .mouse-wheel {
     max-width: 1200px; /* Use full grid width */
     margin: 0 auto;
     padding: 0 20px 100px 20px;
-    color: #000 !important;
+    color: #333333 !important; /* Dark gray */
 }
 
 
@@ -593,7 +612,7 @@ body.inverted .interactive-text:hover {
     line-height: 1.7;
     max-width: 1100px; /* Wider for better use of grid space */
     margin: 0 auto;
-    color: #000 !important;
+    color: #333333 !important; /* Dark gray */
 }
 
 .letter-content p {
@@ -648,13 +667,158 @@ body.inverted .interactive-text:hover {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     margin-bottom: 24px;
-    color: #000;
+    color: #333333; /* Dark gray */
     text-align: left;
     line-height: 1.4;
 }
 
+/* Extra spacing for "Where It's Headed" heading */
+.section-heading-spaced {
+    margin-top: 160px; /* Doubled again from 80px to 160px */
+}
 
-/* CTA Section - Call to Action */
+
+/* Full-Bleed CTA Section */
+.cta-fullbleed {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 120px 0;
+    background: rgba(242, 201, 76, 0.08); /* Very light yellow background */
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-content {
+    max-width: 1200px; /* Match main content container */
+    margin: 0 auto;
+    padding: 0 20px; /* Match main content padding */
+    text-align: left; /* Changed to left-align for content */
+}
+
+/* Headlines within CTA section maintain their styling */
+.cta-content .headline {
+    max-width: 1100px; /* Match letter-content width */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+}
+
+/* CTA Divider */
+.cta-divider {
+    width: 100%;
+    height: 1px;
+    background: #333333;
+    margin: 80px 0;
+    opacity: 0.2;
+}
+
+/* Stats Grid Layout */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 8fr; /* Added middle column for spacing */
+    gap: 40px;
+    margin: 60px 0;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-line {
+    width: 100%;
+    height: 2px;
+    background: #333333;
+    margin-bottom: 20px;
+}
+
+.stat-number {
+    font-size: 12rem;
+    font-weight: 700;
+    color: #333333;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 15px;
+    letter-spacing: -0.05em; /* Midway between tight and standard */
+}
+
+.stat-label {
+    font-family: 'Maison Neue Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #333333;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.description-column {
+    display: flex;
+    align-items: center;
+}
+
+.monospaced-description {
+    font-family: 'Maison Neue', monospace;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #333333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Thick Divider */
+.thick-divider {
+    width: 100%;
+    height: 4px;
+    background: #333333;
+    margin: 60px 0;
+}
+
+/* Application Status Monospace */
+.application-status-monospace {
+    font-family: 'Maison Neue', monospace;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #333333;
+    text-align: center;
+    margin: 60px 0;
+}
+
+.status-number {
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Apply Button - Large Rounded Pill */
+.apply-button {
+    display: block;
+    width: 300px;
+    margin: 80px auto 0 auto;
+    padding: 25px 50px;
+    background: #f2c94c;
+    color: #000;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 50px; /* Fully rounded pill */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 20px rgba(242, 201, 76, 0.3);
+}
+
+.apply-button:hover {
+    background: #f4d03f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(242, 201, 76, 0.3);
+}
+
+/* Legacy CTA Section - keeping for reference */
 .cta-section {
     margin: 120px 0 80px 0;
     padding: 80px 40px;
@@ -778,7 +942,11 @@ body.inverted .cta-button:hover {
     
     .opening-section {
         justify-content: flex-start;
-        padding-top: 60px;
+        padding-top: 40px; /* Lowered from 60px */
+    }
+    
+    .mouse-icon {
+        bottom: 100px; /* Raised from 60px to 100px (40px higher) */
     }
     
     .headline {
@@ -809,6 +977,66 @@ body.inverted .cta-button:hover {
         margin-bottom: 50px;
     }
     
+    .cta-fullbleed {
+        padding: 100px 0;
+    }
+    
+    .cta-content {
+        padding: 0 20px; /* Match main content container */
+    }
+    
+    .cta-content .headline {
+        margin-bottom: 35px;
+    }
+    
+    .cta-divider {
+        margin: 60px 0;
+    }
+    
+    .stats-section {
+        margin: 50px 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin: 50px 0;
+    }
+    
+    .stat-number {
+        font-size: 10rem;
+        letter-spacing: -0.04em;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    
+    .monospaced-description {
+        font-size: 1.1rem;
+    }
+    
+    .thick-divider {
+        margin: 50px 0;
+    }
+    
+    .application-status-monospace {
+        font-size: 1.1rem;
+        margin: 50px 0;
+    }
+    
+    .apply-button {
+        width: 250px;
+        padding: 22px 40px;
+        font-size: 1.1rem;
+        margin: 60px auto 0 auto;
+    }
+    
+    .cta-content p {
+        margin-bottom: 35px;
+    }
+    
+    
     .cta-section {
         margin: 100px 0 60px 0;
         padding: 60px 30px;
@@ -838,7 +1066,11 @@ body.inverted .cta-button:hover {
     
     .opening-section {
         justify-content: flex-start;
-        padding-top: 40px;
+        padding-top: 30px; /* Lowered from 40px for small mobile */
+    }
+    
+    .mouse-icon {
+        bottom: 90px; /* Raised from 50px to 90px (40px higher) */
     }
     
     .headline {
@@ -868,6 +1100,66 @@ body.inverted .cta-button:hover {
     .letter-content .poetic-break {
         margin-bottom: 45px;
     }
+    
+    .cta-fullbleed {
+        padding: 80px 0;
+    }
+    
+    .cta-content {
+        padding: 0 20px; /* Match main content container */
+    }
+    
+    .cta-content .headline {
+        margin-bottom: 30px;
+    }
+    
+    .cta-divider {
+        margin: 50px 0;
+    }
+    
+    .stats-section {
+        margin: 40px 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin: 40px 0;
+    }
+    
+    .stat-number {
+        font-size: 8rem;
+        letter-spacing: -0.03em;
+    }
+    
+    .stat-label {
+        font-size: 0.6rem;
+    }
+    
+    .monospaced-description {
+        font-size: 1rem;
+    }
+    
+    .thick-divider {
+        margin: 40px 0;
+    }
+    
+    .application-status-monospace {
+        font-size: 1rem;
+        margin: 40px 0;
+    }
+    
+    .apply-button {
+        width: 220px;
+        padding: 20px 35px;
+        font-size: 1rem;
+        margin: 50px auto 0 auto;
+    }
+    
+    .cta-content p {
+        margin-bottom: 30px;
+    }
+    
     
     .cta-section {
         margin: 80px 0 50px 0;
@@ -946,7 +1238,7 @@ body.inverted .cta-button:hover {
 
 @media (max-width: 1024px) {
     .word {
-        font-size: 6rem;
+        font-size: 6rem; /* Reverted from 3rem to 6rem */
     }
     
     .typography-container {
@@ -956,7 +1248,7 @@ body.inverted .cta-button:hover {
 
 @media (max-width: 768px) {
     .word {
-        font-size: 5rem;
+        font-size: 5rem; /* Reverted from 2.5rem to 5rem */
     }
     
     .hero-video {
@@ -993,7 +1285,7 @@ body.inverted .cta-button:hover {
     }
     
     .word {
-        font-size: 2.4rem;
+        font-size: 2.8rem; /* Reverted from 1.4rem to 2.8rem */
     }
     
     .typography-container {
