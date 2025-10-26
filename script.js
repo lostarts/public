@@ -5,6 +5,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const blackViewport = document.querySelector('.black-viewport');
     const fadeTrigger = document.querySelector('.fade-trigger');
     const body = document.body;
+    const heroVideo = document.getElementById('hero-video');
+    
+    // Ping-pong video playback for seamless looping
+    if (heroVideo) {
+        let isPlayingForward = true;
+        
+        heroVideo.addEventListener('ended', function() {
+            if (isPlayingForward) {
+                // Video ended playing forward, now play backward
+                heroVideo.playbackRate = -1;
+                heroVideo.currentTime = heroVideo.duration;
+                heroVideo.play();
+                isPlayingForward = false;
+            } else {
+                // Video ended playing backward, now play forward
+                heroVideo.playbackRate = 1;
+                heroVideo.currentTime = 0;
+                heroVideo.play();
+                isPlayingForward = true;
+            }
+        });
+        
+        // Ensure video starts playing forward
+        heroVideo.addEventListener('loadeddata', function() {
+            heroVideo.playbackRate = 1;
+            heroVideo.currentTime = 0;
+        });
+    }
     
     // Page inversion observer - handles both directions
     const inversionOptions = {
