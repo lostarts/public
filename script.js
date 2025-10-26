@@ -10,27 +10,85 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ping-pong video playback for seamless looping
     if (heroVideo) {
         let isPlayingForward = true;
+        let animationId;
+        let lastTime = 0;
+        let isReversing = false;
         
+        // Function to simulate reverse playback by manually controlling currentTime
+        function simulateReversePlayback() {
+            if (isReversing) {
+                const currentTime = heroVideo.currentTime;
+                
+                // Calculate new time (moving backward)
+                const newTime = Math.max(0, currentTime - (1/30)); // 30fps for smoother reverse
+                
+                if (newTime <= 0.1) { // Small buffer to avoid precision issues
+                    // Reached beginning, switch to forward
+                    console.log('Reached beginning, switching to forward');
+                    isPlayingForward = true;
+                    isReversing = false;
+                    heroVideo.currentTime = 0;
+                    heroVideo.play();
+                } else {
+                    heroVideo.currentTime = newTime;
+                    animationId = requestAnimationFrame(simulateReversePlayback);
+                }
+            }
+        }
+        
+        // Check for video end manually since 'ended' event might not fire reliably
+        function checkVideoProgress() {
+            if (isPlayingForward && !isReversing) {
+                const currentTime = heroVideo.currentTime;
+                const duration = heroVideo.duration;
+                
+                // Check if we're near the end (within 0.1 seconds)
+                if (duration - currentTime <= 0.1) {
+                    console.log('Video near end, switching to reverse');
+                    isPlayingForward = false;
+                    isReversing = true;
+                    heroVideo.pause();
+                    simulateReversePlayback();
+                }
+            }
+        }
+        
+        // Monitor video progress
+        heroVideo.addEventListener('timeupdate', checkVideoProgress);
+        
+        // Backup ended event listener
         heroVideo.addEventListener('ended', function() {
-            if (isPlayingForward) {
-                // Video ended playing forward, now play backward
-                heroVideo.playbackRate = -1;
-                heroVideo.currentTime = heroVideo.duration;
-                heroVideo.play();
+            console.log('Video ended event fired');
+            if (isPlayingForward && !isReversing) {
                 isPlayingForward = false;
-            } else {
-                // Video ended playing backward, now play forward
-                heroVideo.playbackRate = 1;
-                heroVideo.currentTime = 0;
-                heroVideo.play();
-                isPlayingForward = true;
+                isReversing = true;
+                heroVideo.pause();
+                simulateReversePlayback();
             }
         });
         
         // Ensure video starts playing forward
         heroVideo.addEventListener('loadeddata', function() {
+            console.log('Video loaded, duration:', heroVideo.duration);
             heroVideo.playbackRate = 1;
             heroVideo.currentTime = 0;
+            isPlayingForward = true;
+            isReversing = false;
+            heroVideo.play();
+        });
+        
+        // Handle video errors
+        heroVideo.addEventListener('error', function(e) {
+            console.error('Video error:', e);
+            // Fallback: just loop normally
+            heroVideo.loop = true;
+        });
+        
+        // Clean up animation frame on page unload
+        window.addEventListener('beforeunload', function() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
         });
     }
     
