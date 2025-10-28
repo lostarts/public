@@ -12,9 +12,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // Enable native looping
         heroVideo.loop = true;
         
+        // Force play video immediately (helpful for Safari)
+        const playPromise = heroVideo.play();
+        
+        // If autoplay is blocked, catch and log
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('Autoplay was prevented:', error);
+                // Try to play with user interaction
+                document.addEventListener('click', function() {
+                    heroVideo.play();
+                }, { once: true });
+            });
+        }
+        
         // Start video when loaded
         heroVideo.addEventListener('loadeddata', function() {
-            heroVideo.play();
+            heroVideo.play().catch(error => {
+                console.log('Play on loadeddata prevented:', error);
+            });
+        });
+        
+        // Force play on canplay event
+        heroVideo.addEventListener('canplay', function() {
+            heroVideo.play().catch(error => {
+                console.log('Play on canplay prevented:', error);
+            });
         });
         
         // Handle video errors

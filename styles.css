@@ -265,6 +265,26 @@ body.inverted {
     object-fit: cover;
     z-index: 0;
     opacity: 0.8;
+    /* Hide Safari video controls */
+    pointer-events: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Safari-specific fixes to hide play button overlay */
+.hero-video::-webkit-media-controls {
+    display: none !important;
+}
+
+.hero-video::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+.hero-video::-webkit-media-controls-play-button {
+    display: none !important;
+}
+
+.hero-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
 }
 
 /* When inverted, black viewport text fades to black */
