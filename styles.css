@@ -823,6 +823,37 @@ body.inverted .interactive-text:hover {
     box-shadow: 0 4px 12px rgba(242, 201, 76, 0.3);
 }
 
+/* Letter Content Section */
+.letter-content-section {
+    padding: 120px 0;
+    background: #f5f5f5; /* Light gray background to distinguish from CTA section */
+}
+
+.letter-content-section .letter-content {
+    color: #333333;
+}
+
+.profile-image {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Makes it circular */
+    margin: 0 auto 40px auto;
+    object-fit: cover;
+}
+
+.letter-content-section .text-link {
+    color: #333333;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: opacity 0.3s ease;
+}
+
+.letter-content-section .text-link:hover {
+    opacity: 0.6;
+}
+
 /* Legacy CTA Section - keeping for reference */
 .cta-section {
     margin: 120px 0 80px 0;
@@ -990,6 +1021,10 @@ body.inverted .cta-button:hover {
         padding: 0 20px; /* Match main content container */
     }
     
+    .letter-content-section {
+        padding: 100px 0;
+    }
+    
     .cta-content .headline {
         margin-bottom: 35px;
     }
@@ -1112,6 +1147,10 @@ body.inverted .cta-button:hover {
     
     .cta-content {
         padding: 0 20px; /* Match main content container */
+    }
+    
+    .letter-content-section {
+        padding: 80px 0;
     }
     
     .cta-content .headline {
