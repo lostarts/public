@@ -7,10 +7,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const heroVideo = document.getElementById('hero-video');
     
-    // Simple infinite loop for hero video
+    // Simple infinite loop for hero video with enhanced Safari support
     if (heroVideo) {
+        // Ensure video is set to autoplay
+        heroVideo.setAttribute('autoplay', 'true');
+        heroVideo.setAttribute('muted', 'true');
+        heroVideo.setAttribute('playsinline', 'true');
+        
         // Enable native looping
         heroVideo.loop = true;
+        
+        // Mute the video (critical for Mona to work in Safari)
+        heroVideo.muted = true;
+        
+        // Disable picture-in-picture and remote playback
+        heroVideo.disablePictureInPicture = true;
+        heroVideo.disableRemotePlayback = true;
+        
+        // Add preload attribute for better performance
+        heroVideo.setAttribute('preload', 'auto');
         
         // Force play video immediately (helpful for Safari)
         const playPromise = heroVideo.play();
@@ -20,14 +35,17 @@ document.addEventListener('DOMContentLoaded', function() {
             playPromise.catch(error => {
                 console.log('Autoplay was prevented:', error);
                 // Try to play with user interaction
-                document.addEventListener('click', function() {
-                    heroVideo.play();
-                }, { once: true });
+                const handleUserInteraction = () => {
+                    heroVideo.play().catch(e => console.log('Manual play failed:', e));
+                };
+                document.addEventListener('click', handleUserInteraction, { once: true });
+                document.addEventListener('touchstart', handleUserInteraction, { once: true });
             });
         }
         
         // Start video when loaded
         heroVideo.addEventListener('loadeddata', function() {
+            heroVideo.muted = true; // Ensure muted
             heroVideo.play().catch(error => {
                 console.log('Play on loadeddata prevented:', error);
             });
@@ -35,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Force play on canplay event
         heroVideo.addEventListener('canplay', function() {
+            heroVideo.muted = true; // Ensure muted
             heroVideo.play().catch(error => {
                 console.log('Play on canplay prevented:', error);
             });

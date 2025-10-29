@@ -287,6 +287,25 @@ body.inverted {
     display: none !important;
 }
 
+/* Additional Safari 26.1 beta specific overrides */
+.hero-video::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+}
+
+.hero-video::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+/* Hide any video controls UI */
+.hero-video[controls] {
+    display: none !important;
+}
+
+/* Ensure video element itself doesn't show controls attribute */
+video.hero-video {
+    -webkit-appearance: none !important;
+}
+
 /* When inverted, black viewport text fades to black */
 body.inverted .black-viewport {
     color: #000 !important;
